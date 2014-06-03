@@ -15,8 +15,8 @@ public class Discovery {
     static int WHITE_L;
     static int WHITE_H;
     
-    static int pos_x = 3;
-    static int pos_y = -1;
+    static int pos_x = 4;
+    static int pos_y = 0;
     static int orient = 0; // 0-N, 1-E, 2-S, 3-W
 
     private static void setColorValues(LightSensor light) {
@@ -261,6 +261,14 @@ public class Discovery {
         // Jeœli zaczynamy poza map¹ - odkomentowaæ
         //mapa = moveOneFront(pilot, light, mapa);
         //mapa.setField(pos_x, pos_y, 'S');
+        
+        // Adding first field.
+        String temp_color = f_color(light.getNormalizedLightValue());
+        if (temp_color.contentEquals("red")) {
+            mapa.setField(pos_x, pos_y, 'X');
+        } else {
+            mapa.setField(pos_x, pos_y, '-');
+        }
 
         while (mapa.unknownCount() > 0){
             LCD.clear();
