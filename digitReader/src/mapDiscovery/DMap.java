@@ -103,4 +103,17 @@ public class DMap {
         }
         return ret_val;
     }
+
+	public void printOnDisplayD() {
+        LCD.clear();
+        for (int i = 0; i < xDim; i++) {
+            for (int j = 0; j < yDim; j++) {
+            	int next;
+            	if (mapData[i][j] == '-')
+            	    next = 0;
+            	else next = 1;
+                LCD.drawInt(next, i, yDim - j - 1);
+            }
+        }
+	}
 }

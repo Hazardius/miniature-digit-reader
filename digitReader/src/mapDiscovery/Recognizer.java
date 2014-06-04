@@ -3,6 +3,9 @@ package mapDiscovery;
 import java.util.LinkedList;
 import java.util.List;
 
+import lejos.nxt.Button;
+import lejos.nxt.LCD;
+
 public class Recognizer {
     
     private static List<Pair> samples;
@@ -264,9 +267,17 @@ public class Recognizer {
         init();
         DoublePair[] lengths = new DoublePair[samples.size()];
         for (int i=0; i<samples.size(); i++) {
-            lengths[i] = new DoublePair(euclid(image, samples.get(i).dims), samples.get(i).digit);
+        	double len = euclid(image, samples.get(i).dims);
+            LCD.drawString("" + len, 0, 0);
+            try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+            lengths[i] = new DoublePair(len, samples.get(i).digit);
         }
         DoublePair[] sorted = (new Quicksort()).sort(lengths);
+        
         int[] digits = {0,0,0,0,0,0,0,0,0,0};
         if (sorted[0].len == 0.0d) return sorted[0].digit;
         for (int i=0; i<sorted.length; i++) {

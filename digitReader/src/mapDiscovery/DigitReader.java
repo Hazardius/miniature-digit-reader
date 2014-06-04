@@ -4,6 +4,7 @@ import lejos.nxt.*;
 import lejos.robotics.localization.OdometryPoseProvider;
 import lejos.robotics.navigation.*;
 import lejos.robotics.objectdetection.*;
+import mapDiscovery.Recognizer.DoublePair;
 
 public class DigitReader {
     static int BLUE_L;
@@ -135,9 +136,7 @@ public class DigitReader {
             new_color = color(new_col_val);
         } while (new_color.contentEquals("black"));*/
         pilot.stop();
-        if (start_color.contentEquals("black")){
-            pilot.travel(5);
-        } else pilot.travel(30);
+        pilot.travel(30);
         correctPosition(pilot, light);
         //pilot.travel(100); // skorygowac aby nie wjezdzac na obiekty!!
         switch (orient) {
@@ -215,7 +214,7 @@ public class DigitReader {
             now_c = color(now_val);
         }
         pilot.stop();
-        pilot.travel((pp.getPose().getX() / -2.0f) + 30.0f);
+        pilot.travel((pp.getPose().getX() / -2.0f) + 25.0f);
         return;
     }
 
@@ -272,14 +271,16 @@ public class DigitReader {
 
         while (mapa.unknownCount() > 0){
             LCD.clear();
-            LCD.drawInt(mapa.unknownCount(), 0, 7);
+            LCD.drawInt(mapa.unknownCount(), 0, 2);
             String way = mapa.findAWay(pos_x, pos_y, orient);
             mapa = goAWay(way, pilot, light, mapa);
         }
 
-        mapa.printOnDisplay();
+        Double[] temp = mapa.getDoubleTab();
         
-        int digit = Recognizer.recognize(mapa.getDoubleTab());
+        int digit = Recognizer.recognize(temp);
+
+        mapa.printOnDisplay();
 
         LCD.drawInt(digit, 0, 6);
 
