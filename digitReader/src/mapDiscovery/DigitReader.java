@@ -5,7 +5,7 @@ import lejos.robotics.localization.OdometryPoseProvider;
 import lejos.robotics.navigation.*;
 import lejos.robotics.objectdetection.*;
 
-public class Discovery {
+public class DigitReader {
     static int BLUE_L;
     static int BLUE_H;
     static int RED_L;
@@ -204,7 +204,7 @@ public class Discovery {
         start_val = now_val;
         pilot.forward();
         try {
-            Thread.sleep(2500);
+            Thread.sleep(1750);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -241,8 +241,8 @@ public class Discovery {
     public static void main(String[] args) throws Exception {
         LightSensor light = new LightSensor(SensorPort.S4);
         DifferentialPilot pilot = new DifferentialPilot(56, 128, Motor.C, Motor.B);
-        pilot.setTravelSpeed(75.0f);
-        pilot.setRotateSpeed(25.0f);
+        pilot.setTravelSpeed(100.0f);
+        pilot.setRotateSpeed(20.0f);
         
         setColorValues(light);
         
@@ -277,9 +277,10 @@ public class Discovery {
             mapa = goAWay(way, pilot, light, mapa);
         }
 
+        mapa.printOnDisplay();
+        
         int digit = Recognizer.recognize(mapa.getDoubleTab());
 
-        mapa.printOnDisplay();
         LCD.drawInt(digit, 0, 6);
 
         Sound.beep();

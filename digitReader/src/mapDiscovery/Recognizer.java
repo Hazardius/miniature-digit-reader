@@ -1,6 +1,5 @@
 package mapDiscovery;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -185,7 +184,7 @@ public class Recognizer {
         }
     }
     
-    private static class DoublePair implements Comparable{
+    public static class DoublePair implements Comparable{
         public Double len; //dimentions
 
         public int digit;
@@ -263,15 +262,15 @@ public class Recognizer {
     
     static int recognize(Double[] image) {
         init();
-        List<DoublePair> lengths = new LinkedList<>();
+        DoublePair[] lengths = new DoublePair[samples.size()];
         for (int i=0; i<samples.size(); i++) {
-            lengths.add(new DoublePair(euclid(image, samples.get(i).dims), samples.get(i).digit));
+            lengths[i] = new DoublePair(euclid(image, samples.get(i).dims), samples.get(i).digit);
         }
-        Collections.sort(lengths);
+        DoublePair[] sorted = (new Quicksort()).sort(lengths);
         int[] digits = {0,0,0,0,0,0,0,0,0,0};
-        if (lengths.get(0).len == 0.0d) return lengths.get(0).digit;
-        for (int i=0; i<lengths.size(); i++) {
-            int ndig = lengths.get(i).digit;
+        if (sorted[0].len == 0.0d) return sorted[0].digit;
+        for (int i=0; i<sorted.length; i++) {
+            int ndig = sorted[i].digit;
             digits[ndig]++;
             if (digits[ndig] == 2) return ndig;
         }

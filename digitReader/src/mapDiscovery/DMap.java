@@ -88,15 +88,15 @@ public class DMap {
         return "";
     }
     
-    public double[] getDoubleTab() {
-        double[] ret_val = new double[yDim * xDim];
+    public Double[] getDoubleTab() {
+        Double[] ret_val = new Double[yDim * xDim];
         int iter = 0;
-        for (int i = yDim - 1; i >= 0; i++) {
+        for (int i = yDim - 1; i >= 0; i--) {
             for (int j = 0; j < xDim; j++) {
                 if (mapData[i][j] == '-') {
-                    ret_val[iter] = 0.0f;
+                    ret_val[iter] = 0.0d;
                 } else {
-                    ret_val[iter] = 1.0f;
+                    ret_val[iter] = 1.0d;
                 }
                 iter++;
             }
